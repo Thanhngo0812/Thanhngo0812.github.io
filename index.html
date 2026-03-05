@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Thanh Ngo</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Cuộn mượt cho toàn trang */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="logo">Thanh Ngo</h1>
+            <nav>
+                <a href="#">Portfolio</a>
+                <a href="#">Blog</a>
+                <a href="#">Resources</a>
+                <a href="#">CV</a>
+                <a href="#">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <aside class="left-sidebar">
+            <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693844/cf8510cc-9552-454a-a3cc-83dbfd51f3ac.png" alt="Avatar" class="avatar">
+            <h2>Thanh Ngo</h2>
+            <p class="bio">Backend Engineer / Fresher.<br>Passionate about Distributed Systems & Cloud Native Architecture.</p>
+            <ul class="social-links">
+                <li><a href="mailto:ngocongthanhsg0812@gmail.com">Email</a></li>
+                <li><a href="https://github.com/Thanhngo0812">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/thành-ngô-08374024b">LinkedIn</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <div class="breadcrumb">Home / <strong>Portfolio</strong></div>
+            <h1 class="page-title">Portfolio</h1>
+            <p class="date">Updated: 03/2026</p>
+
+            <section class="portfolio-section">
+                <h2>⚙️ Enterprise Backend & Architecture</h2>
+                
+                <article class="project" id="restaurant-system">
+                    <h3>RestaurantSystem: High-Performance Distributed Microservices Platform</h3>
+                        <a href="https://github.com/Thanhngo0812/MicroserviceProject" target="_blank" class="github-badge-btn">
+                        <img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-007ec6?style=flat&logo=github&labelColor=555555&logoColor=white" alt="View on GitHub">
+                    </a>
+                    <div class="badges">
+                        <img src="https://img.shields.io/badge/Java-17%2B-ed8b00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
+                        <img src="https://img.shields.io/badge/Spring_Boot-3.0-6db33f?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot">
+                        <img src="https://img.shields.io/badge/Docker-Enabled-2496ed?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+                        <img src="https://img.shields.io/badge/Kafka-Event_Driven-231f20?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Kafka">
+                        <img src="https://img.shields.io/badge/Debezium-CDC-blue?style=for-the-badge" alt="Debezium">
+                    </div>
+
+                    <h4 class="section-title">📖 Executive Summary</h4>
+                    <p><strong>RestaurantSystem</strong> is not just a food ordering application; it is a proof-of-concept for a <strong>Distributed Transaction Processing System</strong> built on a Microservices architecture.</p>
+                    <p>Designed with scalability and fault tolerance in mind, this project solves the challenges of data consistency in distributed systems (Distributed Data Management) using <strong>Event-Driven Architecture</strong> and <strong>Change Data Capture (CDC)</strong> patterns. These are the same architectural principles used in core banking and high-frequency trading systems to ensure zero data loss.</p>
+
+                    <h4 class="section-title">🏗️ System Architecture</h4>
+                    <p>The system follows the <strong>Database-per-Service</strong> pattern to ensure loose coupling, orchestrated via Docker containers.</p>
+                    
+                    <h5>High-Level Architecture Diagram</h5>
+                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1767682557/Bi%E1%BB%83u_%C4%91%E1%BB%93_kh%C3%B4ng_c%C3%B3_ti%C3%AAu_%C4%91%E1%BB%81.drawio_2_av0pas.png" alt="System Architecture Diagram" class="project-image">
+
+                    <h5>Data Flow & CDC Architecture</h5>
+                    <p>This project implements <strong>Debezium</strong> to capture row-level changes from the MySQL database logs (Binlog) and stream them to Kafka, ensuring real-time data synchronization between the Order Service and Restaurant Service without dual-write problems.</p>
+                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1767683181/Bi%E1%BB%83u_%C4%91%E1%BB%93_kh%C3%B4ng_c%C3%B3_ti%C3%AAu_%C4%91%E1%BB%81.drawio_3_qjc9mv.png" alt="CDC Data Flow" class="project-image">
+
+                    <h4 class="section-title">🧩 Microservices Breakdown</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Port</th>
+                                <th>Key Responsibilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>API Gateway</strong></td>
+                                <td><code>8080</code></td>
+                                <td>Entry point, Routing, Load Balancing, SSL Termination.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>User Service (IAM)</strong></td>
+                                <td><code>8081</code></td>
+                                <td>Identity and Access Management, JWT Authentication, Security.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Restaurant Service</strong></td>
+                                <td><code>8082</code></td>
+                                <td>Product Catalog, Inventory Management (CQRS Optimized).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Order Service</strong></td>
+                                <td><code>8083</code></td>
+                                <td><strong>Core Transaction Engine</strong>. Handles order lifecycle state machine.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Payment Service</strong></td>
+                                <td><code>8084</code></td>
+                                <td>Simulates financial transaction processing and auditing.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Monitor Service</strong></td>
+                                <td><code>9090</code></td>
+                                <td><strong>Spring Boot Admin</strong> for centralized health checking & JVM metrics.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Debezium Connector</strong></td>
+                                <td><code>8083</code></td>
+                                <td>Captures DB changes for real-time analytics and sync.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="section-title">🛠️ Technology Stack & Engineering Decisions</h4>
+                    <ul>
+                        <li><strong>Core Backend:</strong> Java 17, Spring Boot 3.x, Spring Cloud Gateway.</li>
+                        <li><strong>Data Storage:</strong> MySQL (Primary DB), Redis (Caching - <em>planned</em>).</li>
+                        <li><strong>Inter-service Communication:</strong>
+                            <ul>
+                                <li><strong>Synchronous:</strong> REST API (OpenFeign) for read operations.</li>
+                                <li><strong>Asynchronous:</strong> Apache Kafka for high-throughput event streaming.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Data Consistency:</strong> Debezium (CDC) for Event Sourcing capability.</li>
+                        <li><strong>DevOps & Infrastructure:</strong> Docker, Docker Compose for orchestration.</li>
+                        <li><strong>Observability:</strong> Spring Boot Admin, Actuator.</li>
+                    </ul>
+
+                    <h4 class="section-title">🚀 Key Features (Banking-Grade Focus)</h4>
+                    <ol>
+                        <li><strong>Transactional Integrity:</strong> Implemented SAGA Pattern (Choreography) to ensure data consistency across <code>Order</code> and <code>Payment</code> services.</li>
+                        <li><strong>Fault Tolerance:</strong> Circuit Breaker implementation (Resilience4j) to prevent cascading failures when a downstream service is down.</li>
+                        <li><strong>Real-time Monitoring:</strong> Integrated Dashboard to visualize Heap Memory, Thread Pools, and Request Latency—critical for maintaining SLAs in financial systems.</li>
+                        <li><strong>Security First:</strong> Centralized Authentication via API Gateway using JWT.</li>
+                    </ol>
+
+                    <h4 class="section-title">⚙️ How to Run</h4>
+                    <p><strong>1. Clone the repository:</strong></p>
+                    <pre><code>git clone https://github.com/Thanhngo0812/MicroserviceProject.git
+cd swa</code></pre>
+                    <p><strong>2. Start the Infrastructure:</strong></p>
+                    <pre><code>docker-compose up -d</code></pre>
+                    <p><strong>3. Verify Deployment:</strong></p>
+                    <ul>
+                        <li>Access <strong>Spring Boot Admin</strong>: <code>http://localhost:9090</code></li>
+                        <li>Access <strong>API Gateway</strong>: <code>http://localhost:8080</code></li>
+                    </ul>
+                    
+                
+                </article>
+
+                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 40px 0;">
+
+                <article class="project" id="pharma-master">
+                    <h3>PharmaMaster: Enterprise Pharmacy Management & ERP System</h3>
+                      <a href="https://github.com/Thanhngo0812/pharmacy-erp-system" target="_blank" class="github-badge-btn">
+                        <img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-007ec6?style=flat&logo=github&labelColor=555555&logoColor=white" alt="View on GitHub">
+                    </a>
+                    
+                    <div class="badges">
+                        <img src="https://img.shields.io/badge/Java-17%2B-ed8b00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
+                        <img src="https://img.shields.io/badge/Spring_Boot-3.x-6db33f?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot">
+                        <img src="https://img.shields.io/badge/Docker-Enabled-2496ed?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+                        <img src="https://img.shields.io/badge/Kafka-Event_Driven-231f20?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Kafka">
+                        <img src="https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+                        <img src="https://img.shields.io/badge/DigitalOcean-CI%2FCD-0080FF?style=for-the-badge&logo=digitalocean&logoColor=white" alt="DigitalOcean">
+                        <img src="https://img.shields.io/badge/ELK_Stack-Planned-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="ELK Stack">
+                    </div>
+
+                    <h4 class="section-title">📖 Executive Summary</h4>
+                    <p><strong>PharmaMaster</strong> is a comprehensive Enterprise Resource Planning (ERP) system designed specifically for the pharmaceutical retail and wholesale operations.</p>
+                    <p>Built on a <strong>Modular Monolith Architecture</strong> with an <strong>Event-Driven Architecture</strong> integration, this project resolves the strict core challenges of pharmaceutical businesses: complex multiphase inventory operations, dynamic multi-unit conversions, strict expiry date (<strong>FEFO</strong>) tracking, and human resources flow. It embraces the same architectural principles (Kafka asynchronous events, CD automation, RBAC) utilized in scalable and fault-tolerant enterprise ecosystems.</p>
+
+                    <h4 class="section-title">🏗️ System Architecture</h4>
+                    <p>The system adopts a <strong>Modular Monolith</strong> structure to ensure high maintainability, tight transactional integrity, and a clear path toward microservices. Furthermore, it incorporates an <strong>Event-Driven Architecture</strong> via Apache Kafka for high-throughput background processing, fully orchestrated via Docker containers.</p>
+
+                    <h5>High-Level Architecture Diagram</h5>
+                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693463/cleanarchitecture.drawio_pa9fnk.png" alt="PharmaMaster Architecture Diagram" class="project-image">
+
+                    <h5>Event-Driven Data Flow</h5>
+                    <p>To ensure strict system performance and decouple critical business logic, PharmaMaster implements <strong>Kafka</strong> as its central message broker. For example, the Identity and HR domains communicate via Kafka events (<code>user-password-email</code> topic) for asynchronous email notifications via SendGrid. This fully isolates the mail dispatcher worker (<code>MailWorker</code>), prevents blocking core API calls, and ensures reliable message delivery regardless of external third-party service latency.</p>
+
+                    <h5>Observability & Centralized Logging (Upcoming Integration)</h5>
+                    <p>To maintain strict auditability and rapid troubleshooting across all modules, the system architecture plans to integrate the <strong>ELK Stack (Elasticsearch, Logstash, Kibana)</strong> coupled with <strong>Filebeat</strong>. Filebeat will tail distributed container logs and forward them to Elasticsearch (via Logstash). This will provide a centralized Kibana dashboard to securely monitor API latencies, track error rates, and trace asynchronous Kafka events in real-time.</p>
+
+                    <h4 class="section-title">🧩 Modules Breakdown</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Key Responsibilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong><code>identity</code></strong></td>
+                                <td>Identity and Access Management (IAM), Security, Stateless JWT Authentication.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>core</code></strong></td>
+                                <td>Global System properties and Branch configurations.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>hr</code></strong></td>
+                                <td>Employee profiles, Payroll, Career Changes, and Leave requests approval flows.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>catalog</code></strong></td>
+                                <td>Master data for Products, Categories, and complex Multi-unit conversion rates.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>inventory</code></strong></td>
+                                <td>Procurement (Purchase Orders), warehouse management, Batch ID management, and Expiry tracking.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>sales</code></strong></td>
+                                <td>Point of Sale (POS) logic, Invoicing, and strictly enforced FEFO inventory deduction.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Workers</strong></td>
+                                <td>Kafka Consumers for async processing (e.g., <code>modules/mail</code> for SendGrid Dispatcher).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="section-title">🛠️ Technology Stack & Engineering Decisions</h4>
+                    <ul>
+                        <li><strong>Core Backend:</strong> Java 17+, Spring Boot 3.x</li>
+                        <li><strong>Data Storage:</strong> PostgreSQL 15, managed via Flyway for seamless DB versioning & migrations.</li>
+                        <li><strong>Message Broker:</strong> Apache Kafka & Zookeeper (Event-driven asynchronous processing).</li>
+                        <li><strong>Inter-module Communication:</strong> Java Method Invocations (Synchronous) and Kafka Topics (Asynchronous).</li>
+                        <li><strong>DevOps & Infrastructure:</strong> Docker & Docker Compose for local development & production orchestration.</li>
+                        <li><strong>CI/CD Pipeline:</strong> Fully automated Continuous Deployment to <strong>DigitalOcean</strong> utilizing <strong>GitHub Actions</strong>.</li>
+                        <li><strong>Security & APIs:</strong> Spring Security, JWT logic, MapStruct for DTOs, SpringDoc OpenAPI (Swagger).</li>
+                        <li><strong>Observability (Upcoming):</strong> ELK Stack (Elasticsearch, Logstash, Kibana) + Filebeat for centralized logging and monitoring.</li>
+                    </ul>
+
+                    <h4 class="section-title">🚀 Key Features & Best Practices</h4>
+                    <ol>
+                        <li><strong>FEFO Inventory Strategy:</strong> Automatic and strict inventory deduction following <strong>First Expired, First Out</strong> to prioritize clearing goods nearing their expiration, minimizing pharmaceutical waste.</li>
+                        <li><strong>Multi-Unit Conversion System:</strong> Seamlessly scale operations by selling products across multiple dynamic units (e.g., Box -> Blister -> Pill) with synchronized dynamic pricing and global conversion fractions.</li>
+                        <li><strong>Enterprise RBAC:</strong> Granular, robust Role-Based Access Control logic separating permissions for System Admins, Branch Managers, Pharmacists, and Warehouse Staff.</li>
+                        <li><strong>Secure Onboarding:</strong> Every employee creation automatically triggers an opaque random password generation and async email dispatching.</li>
+                        <li><strong>Data Integrity & Traceability:</strong> Hard deletion is heavily restricted. The application primarily utilizes <strong>Soft Deletes</strong>, state machine statuses (Pending, Approved, Rejected), and an Action Log to ensure thorough accounting audits.</li>
+                    </ol>
+
+                    <h4 class="section-title">⚙️ CI/CD Pipeline Flow (GitHub Actions -> DigitalOcean)</h4>
+                    <p>The deployment and delivery process is fully automated, removing all manual provisioning overhead for the DigitalOcean VPS Droplet:</p>
+                    <h5>CI/CD Flow Diagram</h5>
+                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693327/DO-1_vpeonr.jpg" alt="CI/CD Flow Diagram" class="project-image">
+
+                    <ol>
+                        <li><strong>Code Push:</strong> The developer merges verified code into the <code>main</code> branch.</li>
+                        <li><strong>Build & Push:</strong> GitHub Actions steps in, packaging a Docker image and pushing it directly to Docker Hub securely. The image is strictly tagged with the specific Git Commit SHA (<code>github.sha</code>) for enterprise version tracking.</li>
+                        <li><strong>SSH Execution:</strong> The pipeline securely authenticates into the DigitalOcean VPS environment via SSH keys.</li>
+                        <li><strong>Zero-Downtime Update:</strong> Re-evaluates <code>.env</code> configurations, explicitly pulls the latest committed Docker image, and executes <code>docker compose up -d --remove-orphans</code> silently.</li>
+                        <li><strong>Optimize Storage:</strong> A post-deployment hook executes <code>docker image prune -f</code> to aggressively clean up dangling images, optimizing disk usage on the SSD server.</li>
+                    </ol>
+                    
+                   
+                    <h4 class="section-title">⚙️ How to Run Locally</h4>
+                    <p><strong>1. Clone the repository:</strong></p>
+                    <pre><code>git clone [YOUR_REPO_URL]
+cd pharmacy-erp-system/PharmacyManagement</code></pre>
+                    <p><strong>2. Start the Infrastructure:</strong></p>
+                    <pre><code>docker-compose up -d</code></pre>
+                    <p><strong>3. Verify Deployment:</strong></p>
+                    <ul>
+                        <li><strong>Backend APIs (Swagger UI):</strong> <code>http://localhost:8080/swagger-ui.html</code></li>
+                        <li><strong>Kafka Monitoring (Kafka UI):</strong> <code>http://localhost:8090</code></li>
+                    </ul>
+
+    
+                </article>
+            </section>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc">
+                <div class="toc-header">Table of Contents</div>
+                <ul class="toc-list">
+                    <li><a href="#">⚙️ Enterprise Backend & Architecture</a>
+                        <ul>
+                            <li><a href="#restaurant-system">RestaurantSystem - Distributed Microservices System</a></li>
+                            <li><a href="#pharma-master">Pharmacy ERP System - Monolithic Modular System</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+    </div>
+</body>
+</html>
