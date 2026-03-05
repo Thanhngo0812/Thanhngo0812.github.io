@@ -44,7 +44,130 @@
 
             <section class="portfolio-section">
                 <h2>⚙️ Enterprise Backend & Architecture</h2>
-                
+  <article class="project" id="pharma-master">
+                    <h3>PharmaMaster: Enterprise Pharmacy Management & ERP System</h3>
+                      <a href="https://github.com/Thanhngo0812/pharmacy-erp-system" target="_blank" class="github-badge-btn">
+                        <img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-007ec6?style=flat&logo=github&labelColor=555555&logoColor=white" alt="View on GitHub">
+                    </a>
+                    
+                    <div class="badges">
+                        <img src="https://img.shields.io/badge/Java-17%2B-ed8b00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
+                        <img src="https://img.shields.io/badge/Spring_Boot-3.x-6db33f?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot">
+                        <img src="https://img.shields.io/badge/Docker-Enabled-2496ed?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+                        <img src="https://img.shields.io/badge/Kafka-Event_Driven-231f20?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Kafka">
+                        <img src="https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+                        <img src="https://img.shields.io/badge/DigitalOcean-CI%2FCD-0080FF?style=for-the-badge&logo=digitalocean&logoColor=white" alt="DigitalOcean">
+                        <img src="https://img.shields.io/badge/ELK_Stack-Planned-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="ELK Stack">
+                    </div>
+
+                    <h4 class="section-title">📖 Executive Summary</h4>
+                    <p><strong>PharmaMaster</strong> is a comprehensive Enterprise Resource Planning (ERP) system designed specifically for the pharmaceutical retail and wholesale operations.</p>
+                    <p>Built on a <strong>Modular Monolith Architecture</strong> with an <strong>Event-Driven Architecture</strong> integration, this project resolves the strict core challenges of pharmaceutical businesses: complex multiphase inventory operations, dynamic multi-unit conversions, strict expiry date (<strong>FEFO</strong>) tracking, and human resources flow. It embraces the same architectural principles (Kafka asynchronous events, CD automation, RBAC) utilized in scalable and fault-tolerant enterprise ecosystems.</p>
+
+                    <h4 class="section-title">🏗️ System Architecture</h4>
+                    <p>The system adopts a <strong>Modular Monolith</strong> structure to ensure high maintainability, tight transactional integrity, and a clear path toward microservices. Furthermore, it incorporates an <strong>Event-Driven Architecture</strong> via Apache Kafka for high-throughput background processing, fully orchestrated via Docker containers.</p>
+
+                    <h5>High-Level Architecture Diagram</h5>
+                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693463/cleanarchitecture.drawio_pa9fnk.png" alt="PharmaMaster Architecture Diagram" class="project-image">
+
+                    <h5>Event-Driven Data Flow</h5>
+                    <p>To ensure strict system performance and decouple critical business logic, PharmaMaster implements <strong>Kafka</strong> as its central message broker. For example, the Identity and HR domains communicate via Kafka events (<code>user-password-email</code> topic) for asynchronous email notifications via SendGrid. This fully isolates the mail dispatcher worker (<code>MailWorker</code>), prevents blocking core API calls, and ensures reliable message delivery regardless of external third-party service latency.</p>
+
+                    <h5>Observability & Centralized Logging (Upcoming Integration)</h5>
+                    <p>To maintain strict auditability and rapid troubleshooting across all modules, the system architecture plans to integrate the <strong>ELK Stack (Elasticsearch, Logstash, Kibana)</strong> coupled with <strong>Filebeat</strong>. Filebeat will tail distributed container logs and forward them to Elasticsearch (via Logstash). This will provide a centralized Kibana dashboard to securely monitor API latencies, track error rates, and trace asynchronous Kafka events in real-time.</p>
+
+                    <h4 class="section-title">🧩 Modules Breakdown</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Key Responsibilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong><code>identity</code></strong></td>
+                                <td>Identity and Access Management (IAM), Security, Stateless JWT Authentication.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>core</code></strong></td>
+                                <td>Global System properties and Branch configurations.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>hr</code></strong></td>
+                                <td>Employee profiles, Payroll, Career Changes, and Leave requests approval flows.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>catalog</code></strong></td>
+                                <td>Master data for Products, Categories, and complex Multi-unit conversion rates.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>inventory</code></strong></td>
+                                <td>Procurement (Purchase Orders), warehouse management, Batch ID management, and Expiry tracking.</td>
+                            </tr>
+                            <tr>
+                                <td><strong><code>sales</code></strong></td>
+                                <td>Point of Sale (POS) logic, Invoicing, and strictly enforced FEFO inventory deduction.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Workers</strong></td>
+                                <td>Kafka Consumers for async processing (e.g., <code>modules/mail</code> for SendGrid Dispatcher).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="section-title">🛠️ Technology Stack & Engineering Decisions</h4>
+                    <ul>
+                        <li><strong>Core Backend:</strong> Java 17+, Spring Boot 3.x</li>
+                        <li><strong>Data Storage:</strong> PostgreSQL 15, managed via Flyway for seamless DB versioning & migrations.</li>
+                        <li><strong>Message Broker:</strong> Apache Kafka & Zookeeper (Event-driven asynchronous processing).</li>
+                        <li><strong>Inter-module Communication:</strong> Java Method Invocations (Synchronous) and Kafka Topics (Asynchronous).</li>
+                        <li><strong>DevOps & Infrastructure:</strong> Docker & Docker Compose for local development & production orchestration.</li>
+                        <li><strong>CI/CD Pipeline:</strong> Fully automated Continuous Deployment to <strong>DigitalOcean</strong> utilizing <strong>GitHub Actions</strong>.</li>
+                        <li><strong>Security & APIs:</strong> Spring Security, JWT logic, MapStruct for DTOs, SpringDoc OpenAPI (Swagger).</li>
+                        <li><strong>Observability (Upcoming):</strong> ELK Stack (Elasticsearch, Logstash, Kibana) + Filebeat for centralized logging and monitoring.</li>
+                    </ul>
+
+                    <h4 class="section-title">🚀 Key Features & Best Practices</h4>
+                    <ol>
+                        <li><strong>FEFO Inventory Strategy:</strong> Automatic and strict inventory deduction following <strong>First Expired, First Out</strong> to prioritize clearing goods nearing their expiration, minimizing pharmaceutical waste.</li>
+                        <li><strong>Multi-Unit Conversion System:</strong> Seamlessly scale operations by selling products across multiple dynamic units (e.g., Box -> Blister -> Pill) with synchronized dynamic pricing and global conversion fractions.</li>
+                        <li><strong>Enterprise RBAC:</strong> Granular, robust Role-Based Access Control logic separating permissions for System Admins, Branch Managers, Pharmacists, and Warehouse Staff.</li>
+                        <li><strong>Secure Onboarding:</strong> Every employee creation automatically triggers an opaque random password generation and async email dispatching.</li>
+                        <li><strong>Data Integrity & Traceability:</strong> Hard deletion is heavily restricted. The application primarily utilizes <strong>Soft Deletes</strong>, state machine statuses (Pending, Approved, Rejected), and an Action Log to ensure thorough accounting audits.</li>
+                    </ol>
+
+                    <h4 class="section-title">⚙️ CI/CD Pipeline Flow (GitHub Actions -> DigitalOcean)</h4>
+                    <p>The deployment and delivery process is fully automated, removing all manual provisioning overhead for the DigitalOcean VPS Droplet:</p>
+                    <h5>CI/CD Flow Diagram</h5>
+                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693327/DO-1_vpeonr.jpg" alt="CI/CD Flow Diagram" class="project-image">
+
+                    <ol>
+                        <li><strong>Code Push:</strong> The developer merges verified code into the <code>main</code> branch.</li>
+                        <li><strong>Build & Push:</strong> GitHub Actions steps in, packaging a Docker image and pushing it directly to Docker Hub securely. The image is strictly tagged with the specific Git Commit SHA (<code>github.sha</code>) for enterprise version tracking.</li>
+                        <li><strong>SSH Execution:</strong> The pipeline securely authenticates into the DigitalOcean VPS environment via SSH keys.</li>
+                        <li><strong>Zero-Downtime Update:</strong> Re-evaluates <code>.env</code> configurations, explicitly pulls the latest committed Docker image, and executes <code>docker compose up -d --remove-orphans</code> silently.</li>
+                        <li><strong>Optimize Storage:</strong> A post-deployment hook executes <code>docker image prune -f</code> to aggressively clean up dangling images, optimizing disk usage on the SSD server.</li>
+                    </ol>
+                    
+                   
+                    <h4 class="section-title">⚙️ How to Run Locally</h4>
+                    <p><strong>1. Clone the repository:</strong></p>
+                    <pre><code>git clone https://github.com/Thanhngo0812/pharmacy-erp-system
+cd pharmacy-erp-system/PharmacyManagement</code></pre>
+                    <p><strong>2. Start the Infrastructure:</strong></p>
+                    <pre><code>docker-compose up -d</code></pre>
+                    <p><strong>3. Verify Deployment:</strong></p>
+                    <ul>
+                        <li><strong>Backend APIs (Swagger UI):</strong> <code>http://localhost:8080/swagger-ui.html</code></li>
+                        <li><strong>Kafka Monitoring (Kafka UI):</strong> <code>http://localhost:8090</code></li>
+                    </ul>
+
+    
+                </article>
+                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 40px 0;">
+
+              
                 <article class="project" id="restaurant-system">
                     <h3>RestaurantSystem: High-Performance Distributed Microservices Platform</h3>
                         <a href="https://github.com/Thanhngo0812/MicroserviceProject" target="_blank" class="github-badge-btn">
@@ -157,130 +280,6 @@ cd swa</code></pre>
                     
                 
                 </article>
-
-                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 40px 0;">
-
-                <article class="project" id="pharma-master">
-                    <h3>PharmaMaster: Enterprise Pharmacy Management & ERP System</h3>
-                      <a href="https://github.com/Thanhngo0812/pharmacy-erp-system" target="_blank" class="github-badge-btn">
-                        <img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-007ec6?style=flat&logo=github&labelColor=555555&logoColor=white" alt="View on GitHub">
-                    </a>
-                    
-                    <div class="badges">
-                        <img src="https://img.shields.io/badge/Java-17%2B-ed8b00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
-                        <img src="https://img.shields.io/badge/Spring_Boot-3.x-6db33f?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot">
-                        <img src="https://img.shields.io/badge/Docker-Enabled-2496ed?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-                        <img src="https://img.shields.io/badge/Kafka-Event_Driven-231f20?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Kafka">
-                        <img src="https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-                        <img src="https://img.shields.io/badge/DigitalOcean-CI%2FCD-0080FF?style=for-the-badge&logo=digitalocean&logoColor=white" alt="DigitalOcean">
-                        <img src="https://img.shields.io/badge/ELK_Stack-Planned-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="ELK Stack">
-                    </div>
-
-                    <h4 class="section-title">📖 Executive Summary</h4>
-                    <p><strong>PharmaMaster</strong> is a comprehensive Enterprise Resource Planning (ERP) system designed specifically for the pharmaceutical retail and wholesale operations.</p>
-                    <p>Built on a <strong>Modular Monolith Architecture</strong> with an <strong>Event-Driven Architecture</strong> integration, this project resolves the strict core challenges of pharmaceutical businesses: complex multiphase inventory operations, dynamic multi-unit conversions, strict expiry date (<strong>FEFO</strong>) tracking, and human resources flow. It embraces the same architectural principles (Kafka asynchronous events, CD automation, RBAC) utilized in scalable and fault-tolerant enterprise ecosystems.</p>
-
-                    <h4 class="section-title">🏗️ System Architecture</h4>
-                    <p>The system adopts a <strong>Modular Monolith</strong> structure to ensure high maintainability, tight transactional integrity, and a clear path toward microservices. Furthermore, it incorporates an <strong>Event-Driven Architecture</strong> via Apache Kafka for high-throughput background processing, fully orchestrated via Docker containers.</p>
-
-                    <h5>High-Level Architecture Diagram</h5>
-                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693463/cleanarchitecture.drawio_pa9fnk.png" alt="PharmaMaster Architecture Diagram" class="project-image">
-
-                    <h5>Event-Driven Data Flow</h5>
-                    <p>To ensure strict system performance and decouple critical business logic, PharmaMaster implements <strong>Kafka</strong> as its central message broker. For example, the Identity and HR domains communicate via Kafka events (<code>user-password-email</code> topic) for asynchronous email notifications via SendGrid. This fully isolates the mail dispatcher worker (<code>MailWorker</code>), prevents blocking core API calls, and ensures reliable message delivery regardless of external third-party service latency.</p>
-
-                    <h5>Observability & Centralized Logging (Upcoming Integration)</h5>
-                    <p>To maintain strict auditability and rapid troubleshooting across all modules, the system architecture plans to integrate the <strong>ELK Stack (Elasticsearch, Logstash, Kibana)</strong> coupled with <strong>Filebeat</strong>. Filebeat will tail distributed container logs and forward them to Elasticsearch (via Logstash). This will provide a centralized Kibana dashboard to securely monitor API latencies, track error rates, and trace asynchronous Kafka events in real-time.</p>
-
-                    <h4 class="section-title">🧩 Modules Breakdown</h4>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Module</th>
-                                <th>Key Responsibilities</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong><code>identity</code></strong></td>
-                                <td>Identity and Access Management (IAM), Security, Stateless JWT Authentication.</td>
-                            </tr>
-                            <tr>
-                                <td><strong><code>core</code></strong></td>
-                                <td>Global System properties and Branch configurations.</td>
-                            </tr>
-                            <tr>
-                                <td><strong><code>hr</code></strong></td>
-                                <td>Employee profiles, Payroll, Career Changes, and Leave requests approval flows.</td>
-                            </tr>
-                            <tr>
-                                <td><strong><code>catalog</code></strong></td>
-                                <td>Master data for Products, Categories, and complex Multi-unit conversion rates.</td>
-                            </tr>
-                            <tr>
-                                <td><strong><code>inventory</code></strong></td>
-                                <td>Procurement (Purchase Orders), warehouse management, Batch ID management, and Expiry tracking.</td>
-                            </tr>
-                            <tr>
-                                <td><strong><code>sales</code></strong></td>
-                                <td>Point of Sale (POS) logic, Invoicing, and strictly enforced FEFO inventory deduction.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Workers</strong></td>
-                                <td>Kafka Consumers for async processing (e.g., <code>modules/mail</code> for SendGrid Dispatcher).</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <h4 class="section-title">🛠️ Technology Stack & Engineering Decisions</h4>
-                    <ul>
-                        <li><strong>Core Backend:</strong> Java 17+, Spring Boot 3.x</li>
-                        <li><strong>Data Storage:</strong> PostgreSQL 15, managed via Flyway for seamless DB versioning & migrations.</li>
-                        <li><strong>Message Broker:</strong> Apache Kafka & Zookeeper (Event-driven asynchronous processing).</li>
-                        <li><strong>Inter-module Communication:</strong> Java Method Invocations (Synchronous) and Kafka Topics (Asynchronous).</li>
-                        <li><strong>DevOps & Infrastructure:</strong> Docker & Docker Compose for local development & production orchestration.</li>
-                        <li><strong>CI/CD Pipeline:</strong> Fully automated Continuous Deployment to <strong>DigitalOcean</strong> utilizing <strong>GitHub Actions</strong>.</li>
-                        <li><strong>Security & APIs:</strong> Spring Security, JWT logic, MapStruct for DTOs, SpringDoc OpenAPI (Swagger).</li>
-                        <li><strong>Observability (Upcoming):</strong> ELK Stack (Elasticsearch, Logstash, Kibana) + Filebeat for centralized logging and monitoring.</li>
-                    </ul>
-
-                    <h4 class="section-title">🚀 Key Features & Best Practices</h4>
-                    <ol>
-                        <li><strong>FEFO Inventory Strategy:</strong> Automatic and strict inventory deduction following <strong>First Expired, First Out</strong> to prioritize clearing goods nearing their expiration, minimizing pharmaceutical waste.</li>
-                        <li><strong>Multi-Unit Conversion System:</strong> Seamlessly scale operations by selling products across multiple dynamic units (e.g., Box -> Blister -> Pill) with synchronized dynamic pricing and global conversion fractions.</li>
-                        <li><strong>Enterprise RBAC:</strong> Granular, robust Role-Based Access Control logic separating permissions for System Admins, Branch Managers, Pharmacists, and Warehouse Staff.</li>
-                        <li><strong>Secure Onboarding:</strong> Every employee creation automatically triggers an opaque random password generation and async email dispatching.</li>
-                        <li><strong>Data Integrity & Traceability:</strong> Hard deletion is heavily restricted. The application primarily utilizes <strong>Soft Deletes</strong>, state machine statuses (Pending, Approved, Rejected), and an Action Log to ensure thorough accounting audits.</li>
-                    </ol>
-
-                    <h4 class="section-title">⚙️ CI/CD Pipeline Flow (GitHub Actions -> DigitalOcean)</h4>
-                    <p>The deployment and delivery process is fully automated, removing all manual provisioning overhead for the DigitalOcean VPS Droplet:</p>
-                    <h5>CI/CD Flow Diagram</h5>
-                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693327/DO-1_vpeonr.jpg" alt="CI/CD Flow Diagram" class="project-image">
-
-                    <ol>
-                        <li><strong>Code Push:</strong> The developer merges verified code into the <code>main</code> branch.</li>
-                        <li><strong>Build & Push:</strong> GitHub Actions steps in, packaging a Docker image and pushing it directly to Docker Hub securely. The image is strictly tagged with the specific Git Commit SHA (<code>github.sha</code>) for enterprise version tracking.</li>
-                        <li><strong>SSH Execution:</strong> The pipeline securely authenticates into the DigitalOcean VPS environment via SSH keys.</li>
-                        <li><strong>Zero-Downtime Update:</strong> Re-evaluates <code>.env</code> configurations, explicitly pulls the latest committed Docker image, and executes <code>docker compose up -d --remove-orphans</code> silently.</li>
-                        <li><strong>Optimize Storage:</strong> A post-deployment hook executes <code>docker image prune -f</code> to aggressively clean up dangling images, optimizing disk usage on the SSD server.</li>
-                    </ol>
-                    
-                   
-                    <h4 class="section-title">⚙️ How to Run Locally</h4>
-                    <p><strong>1. Clone the repository:</strong></p>
-                    <pre><code>git clone [YOUR_REPO_URL]
-cd pharmacy-erp-system/PharmacyManagement</code></pre>
-                    <p><strong>2. Start the Infrastructure:</strong></p>
-                    <pre><code>docker-compose up -d</code></pre>
-                    <p><strong>3. Verify Deployment:</strong></p>
-                    <ul>
-                        <li><strong>Backend APIs (Swagger UI):</strong> <code>http://localhost:8080/swagger-ui.html</code></li>
-                        <li><strong>Kafka Monitoring (Kafka UI):</strong> <code>http://localhost:8090</code></li>
-                    </ul>
-
-    
-                </article>
             </section>
         </main>
 
@@ -290,8 +289,9 @@ cd pharmacy-erp-system/PharmacyManagement</code></pre>
                 <ul class="toc-list">
                     <li><a href="#">⚙️ Enterprise Backend & Architecture</a>
                         <ul>
+                              <li><a href="#pharma-master">Pharmacy ERP System - Monolithic Modular System</a></li>
+
                             <li><a href="#restaurant-system">RestaurantSystem - Distributed Microservices System</a></li>
-                            <li><a href="#pharma-master">Pharmacy ERP System - Monolithic Modular System</a></li>
                         </ul>
                     </li>
                 </ul>
