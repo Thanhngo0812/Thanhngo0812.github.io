@@ -41,17 +41,14 @@
 
             <section class="portfolio-section">
                 <h2>⚙️ Enterprise Backend & Architecture</h2>
-  <article class="project" id="pharma-master">
+<article class="project" id="pharma-master">
                     <h3>PharmaMaster: Enterprise Pharmacy Management & ERP System</h3>
-                      <a href="https://github.com/Thanhngo0812/pharmacy-erp-system" target="_blank" class="github-badge-btn">
-                        <img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-007ec6?style=flat&logo=github&labelColor=555555&logoColor=white" alt="View on GitHub">
-                    </a>
                     
                     <div class="badges">
                         <img src="https://img.shields.io/badge/Java-17%2B-ed8b00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
                         <img src="https://img.shields.io/badge/Spring_Boot-3.x-6db33f?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot">
                         <img src="https://img.shields.io/badge/Docker-Enabled-2496ed?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-                        <img src="https://img.shields.io/badge/Kafka-Event_Driven-231f20?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Kafka">
+                        <img src="https://img.shields.io/badge/Redis-Queue_%26_Outbox-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
                         <img src="https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
                         <img src="https://img.shields.io/badge/DigitalOcean-CI%2FCD-0080FF?style=for-the-badge&logo=digitalocean&logoColor=white" alt="DigitalOcean">
                         <img src="https://img.shields.io/badge/ELK_Stack-Planned-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="ELK Stack">
@@ -59,19 +56,21 @@
 
                     <h4 class="section-title">📖 Executive Summary</h4>
                     <p><strong>PharmaMaster</strong> is a comprehensive Enterprise Resource Planning (ERP) system designed specifically for the pharmaceutical retail and wholesale operations.</p>
-                    <p>Built on a <strong>Modular Monolith Architecture</strong> with an <strong>Event-Driven Architecture</strong> integration, this project resolves the strict core challenges of pharmaceutical businesses: complex multiphase inventory operations, dynamic multi-unit conversions, strict expiry date (<strong>FEFO</strong>) tracking, and human resources flow. It embraces the same architectural principles (Kafka asynchronous events, CD automation, RBAC) utilized in scalable and fault-tolerant enterprise ecosystems.</p>
+                    <p>Built on a <strong>Modular Monolith Architecture</strong> with an <strong>Event-Driven Architecture</strong> integration, this project resolves the strict core challenges of pharmaceutical businesses: complex multiphase inventory operations, dynamic multi-unit conversions, strict expiry date (<strong>FEFO</strong>) tracking, and human resources flow. It embraces the same architectural principles (Redis Queue asynchronous events, CD automation, RBAC) utilized in scalable and fault-tolerant enterprise ecosystems.</p>
 
                     <h4 class="section-title">🏗️ System Architecture</h4>
-                    <p>The system adopts a <strong>Modular Monolith</strong> structure to ensure high maintainability, tight transactional integrity, and a clear path toward microservices. Furthermore, it incorporates an <strong>Event-Driven Architecture</strong> via Apache Kafka for high-throughput background processing, fully orchestrated via Docker containers.</p>
+                    <p>The system adopts a <strong>Modular Monolith</strong> structure to ensure high maintainability, tight transactional integrity, and a clear path toward microservices. Furthermore, it incorporates an <strong>Event-Driven Architecture</strong> via Redis Queue and the Outbox Pattern for high-throughput background processing, fully orchestrated via Docker containers.</p>
 
                     <h5>High-Level Architecture Diagram</h5>
                     <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693463/cleanarchitecture.drawio_pa9fnk.png" alt="PharmaMaster Architecture Diagram" class="project-image">
 
                     <h5>Event-Driven Data Flow</h5>
-                    <p>To ensure strict system performance and decouple critical business logic, PharmaMaster implements <strong>Kafka</strong> as its central message broker. For example, the Identity and HR domains communicate via Kafka events (<code>user-password-email</code> topic) for asynchronous email notifications via SendGrid. This fully isolates the mail dispatcher worker (<code>MailWorker</code>), prevents blocking core API calls, and ensures reliable message delivery regardless of external third-party service latency.</p>
+                    <p>To ensure strict system performance and decouple critical business logic, PharmaMaster implements <strong>Redis Queue</strong> coupled with the <strong>Outbox Pattern</strong> as its central message broker. For example, the Identity and HR domains communicate via Redis events (<code>user-password-email</code> queue) for asynchronous email notifications via SendGrid. This fully isolates the mail dispatcher worker (<code>MailWorker</code>), prevents blocking core API calls, and ensures reliable message delivery regardless of external third-party service latency.</p>
+                    
+                    
 
                     <h5>Observability & Centralized Logging (Upcoming Integration)</h5>
-                    <p>To maintain strict auditability and rapid troubleshooting across all modules, the system architecture plans to integrate the <strong>ELK Stack (Elasticsearch, Logstash, Kibana)</strong> coupled with <strong>Filebeat</strong>. Filebeat will tail distributed container logs and forward them to Elasticsearch (via Logstash). This will provide a centralized Kibana dashboard to securely monitor API latencies, track error rates, and trace asynchronous Kafka events in real-time.</p>
+                    <p>To maintain strict auditability and rapid troubleshooting across all modules, the system architecture plans to integrate the <strong>ELK Stack (Elasticsearch, Logstash, Kibana)</strong> coupled with <strong>Filebeat</strong>. Filebeat will tail distributed container logs and forward them to Elasticsearch (via Logstash). This will provide a centralized Kibana dashboard to securely monitor API latencies, track error rates, and trace asynchronous Redis events in real-time.</p>
 
                     <h4 class="section-title">🧩 Modules Breakdown</h4>
                     <table>
@@ -108,7 +107,7 @@
                             </tr>
                             <tr>
                                 <td><strong>Workers</strong></td>
-                                <td>Kafka Consumers for async processing (e.g., <code>modules/mail</code> for SendGrid Dispatcher).</td>
+                                <td>Redis Queue Consumers for async processing (e.g., <code>modules/mail</code> for SendGrid Dispatcher).</td>
                             </tr>
                         </tbody>
                     </table>
@@ -117,8 +116,8 @@
                     <ul>
                         <li><strong>Core Backend:</strong> Java 17+, Spring Boot 3.x</li>
                         <li><strong>Data Storage:</strong> PostgreSQL 15, managed via Flyway for seamless DB versioning & migrations.</li>
-                        <li><strong>Message Broker:</strong> Apache Kafka & Zookeeper (Event-driven asynchronous processing).</li>
-                        <li><strong>Inter-module Communication:</strong> Java Method Invocations (Synchronous) and Kafka Topics (Asynchronous).</li>
+                        <li><strong>Message Broker:</strong> Redis Queue & PostgreSQL Outbox Pattern (Event-driven asynchronous processing).</li>
+                        <li><strong>Inter-module Communication:</strong> Java Method Invocations (Synchronous) and Redis Queues (Asynchronous).</li>
                         <li><strong>DevOps & Infrastructure:</strong> Docker & Docker Compose for local development & production orchestration.</li>
                         <li><strong>CI/CD Pipeline:</strong> Fully automated Continuous Deployment to <strong>DigitalOcean</strong> utilizing <strong>GitHub Actions</strong>.</li>
                         <li><strong>Security & APIs:</strong> Spring Security, JWT logic, MapStruct for DTOs, SpringDoc OpenAPI (Swagger).</li>
@@ -136,9 +135,6 @@
 
                     <h4 class="section-title">⚙️ CI/CD Pipeline Flow (GitHub Actions -> DigitalOcean)</h4>
                     <p>The deployment and delivery process is fully automated, removing all manual provisioning overhead for the DigitalOcean VPS Droplet:</p>
-                    <h5>CI/CD Flow Diagram</h5>
-                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693327/DO-1_vpeonr.jpg" alt="CI/CD Flow Diagram" class="project-image">
-
                     <ol>
                         <li><strong>Code Push:</strong> The developer merges verified code into the <code>main</code> branch.</li>
                         <li><strong>Build & Push:</strong> GitHub Actions steps in, packaging a Docker image and pushing it directly to Docker Hub securely. The image is strictly tagged with the specific Git Commit SHA (<code>github.sha</code>) for enterprise version tracking.</li>
@@ -147,20 +143,23 @@
                         <li><strong>Optimize Storage:</strong> A post-deployment hook executes <code>docker image prune -f</code> to aggressively clean up dangling images, optimizing disk usage on the SSD server.</li>
                     </ol>
                     
-                   
+                    <h5>CI/CD Flow Diagram</h5>
+                    <img src="https://res.cloudinary.com/dfcb3zzw9/image/upload/v1772693327/DO-1_vpeonr.jpg" alt="CI/CD Flow Diagram" class="project-image">
+
                     <h4 class="section-title">⚙️ How to Run Locally</h4>
                     <p><strong>1. Clone the repository:</strong></p>
-                    <pre><code>git clone https://github.com/Thanhngo0812/pharmacy-erp-system
+                    <pre><code>git clone https://github.com/Thanhngo0812/pharmacy-erp-system.git
 cd pharmacy-erp-system/PharmacyManagement</code></pre>
-                    <p><strong>2. Start the Infrastructure:</strong></p>
+                    <p><strong>2. Start the Infrastructure (PostgreSQL, Redis, and App):</strong></p>
                     <pre><code>docker-compose up -d</code></pre>
                     <p><strong>3. Verify Deployment:</strong></p>
                     <ul>
                         <li><strong>Backend APIs (Swagger UI):</strong> <code>http://localhost:8080/swagger-ui.html</code></li>
-                        <li><strong>Kafka Monitoring (Kafka UI):</strong> <code>http://localhost:8090</code></li>
                     </ul>
 
-    
+                    <a href="[YOUR_REPO_URL]" target="_blank" class="github-badge-btn">
+                        <img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-007ec6?style=flat&logo=github&labelColor=555555&logoColor=white" alt="View on GitHub">
+                    </a>
                 </article>
                 <hr style="border: 0; border-top: 1px dashed #ccc; margin: 40px 0;">
 
