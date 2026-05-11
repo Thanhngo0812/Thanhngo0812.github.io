@@ -37,7 +37,7 @@
         <main class="content">
             <div class="breadcrumb">Home / <strong>Portfolio</strong></div>
             <h1 class="page-title">Portfolio</h1>
-            <p class="date">Updated: 03/2026</p>
+            <p class="date">Updated: 05/2026</p>
 
             <section class="portfolio-section">
                 <h2>⚙️ Enterprise Backend & Architecture</h2>
@@ -160,6 +160,95 @@ cd pharmacy-erp-system/PharmacyManagement</code></pre>
                     <a href="[YOUR_REPO_URL]" target="_blank" class="github-badge-btn">
                         <img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-007ec6?style=flat&logo=github&labelColor=555555&logoColor=white" alt="View on GitHub">
                     </a>
+                </article>
+                <hr style="border: 0; border-top: 1px dashed #ccc; margin: 40px 0;">
+
+                <article class="project" id="vietnamese-graphrag">
+                    <h3>Vietnamese GraphRAG Demo: Traceable PDF-to-Graph Retrieval System</h3>
+                    <a href="https://github.com/Thanhngo0812/Vietnamese-GraphRAG-Demo" target="_blank" class="github-badge-btn">
+                        <img src="https://img.shields.io/badge/GitHub-View%20on%20GitHub-007ec6?style=flat&logo=github&labelColor=555555&logoColor=white" alt="View on GitHub">
+                    </a>
+
+                    <div class="badges">
+                        <img src="https://img.shields.io/badge/Python-3.x-3776ab?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+                        <img src="https://img.shields.io/badge/FastAPI-Async-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+                        <img src="https://img.shields.io/badge/GraphRAG-Local_%26_Global_Search-4b5563?style=for-the-badge" alt="GraphRAG">
+                        <img src="https://img.shields.io/badge/Vector_Search-bge--m3-0f766e?style=for-the-badge" alt="Vector Search">
+                        <img src="https://img.shields.io/badge/LLM-Gemma_4_26B-7c3aed?style=for-the-badge" alt="Gemma 4 26B">
+                        <img src="https://img.shields.io/badge/Frontend-Trace_Explorer-f59e0b?style=for-the-badge" alt="Trace Explorer">
+                    </div>
+
+                    <h4 class="section-title">Executive Summary</h4>
+                    <p><strong>Vietnamese GraphRAG Demo</strong> is an architecture-first Retrieval-Augmented Generation system for Vietnamese PDF documents. The project rebuilds the core ideas of Microsoft GraphRAG in a standalone demo stack: PDF ingestion, graph extraction, community detection, community reports, vector indexes, and three retrieval modes.</p>
+                    <p>The main engineering goal is <strong>inspectability</strong>. Each indexing and search stage persists artifacts and exposes prompt/response traces, so the system can be debugged from chunk text to entity extraction, relationship ranking, community report generation, and final answer synthesis.</p>
+
+                    <h4 class="section-title">System Architecture</h4>
+                    <p>The backend exposes FastAPI endpoints for indexing and search, while the single-page frontend visualizes the pipeline timeline, graph, Leiden hierarchy, community reports, and Basic/Local/Global search traces.</p>
+                    <img src="assets/graphrag/general-basic-pipeline.jpg" alt="Vietnamese GraphRAG general pipeline" class="project-image">
+
+                    <h5>Indexing Pipeline</h5>
+                    <p>The indexing flow reads text-based PDFs, splits overlapping chunks, runs Vietnamese graph extraction prompts, merges duplicate entities and relationships, extracts claim covariates, builds a graph, recursively detects communities, generates community reports, stores JSON artifacts, and writes local vector indexes.</p>
+                    <img src="assets/graphrag/index-pipeline.jpg" alt="Vietnamese GraphRAG indexing pipeline" class="project-image">
+
+                    <h4 class="section-title">Core Retrieval Design</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mode</th>
+                                <th>How It Works</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Basic Search</strong></td>
+                                <td>Runs vector search over text units and builds a compact context from top chunks before answer generation.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Local Search</strong></td>
+                                <td>Embeds the query against entity descriptions, expands neighbors through the relationship graph, ranks relationships, claims, communities, and text units, then assembles a token-budgeted context.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Global Search</strong></td>
+                                <td>Selects community reports with fixed or dynamic traversal, maps selected reports into scored points, then reduces the strongest points into a final answer.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h5>Local Search Pipeline</h5>
+                    <img src="assets/graphrag/local-search-pipeline.jpg" alt="Vietnamese GraphRAG local search pipeline" class="project-image">
+
+                    <h5>Global Search Pipeline</h5>
+                    <img src="assets/graphrag/global-search-pipeline.jpg" alt="Vietnamese GraphRAG global search pipeline" class="project-image">
+
+                    <h4 class="section-title">Engineering Highlights</h4>
+                    <ul>
+                        <li><strong>Async backend pipeline:</strong> extraction, claim generation, report generation, and search stages use concurrency limits to control LLM workload.</li>
+                        <li><strong>Traceable artifacts:</strong> every run persists documents, chunks, text units, entities, relationships, covariates, graph coordinates, communities, reports, prompts, and step traces.</li>
+                        <li><strong>Graph community layer:</strong> NetworkX graph construction feeds igraph/leidenalg recursive community splitting with parent-child metadata for hierarchical exploration.</li>
+                        <li><strong>Local vector storage:</strong> NumPy-backed vector files keep text-unit and entity-description namespaces separate for retrieval debugging.</li>
+                        <li><strong>Vietnamese prompt stack:</strong> index and search prompts are written for Vietnamese entity extraction, claim extraction, community reports, and final synthesis.</li>
+                        <li><strong>Model serving integration:</strong> the pipeline consumes an OpenAI-compatible DigitalOcean-hosted <code>google/gemma-4-26B-A4B-it</code> chat endpoint and a local <code>BAAI/bge-m3</code> embedding service.</li>
+                    </ul>
+
+                    <h4 class="section-title">Artifact & Storage Contract</h4>
+                    <p>The project uses deterministic JSON artifacts and vector namespaces so an index run can be inspected or replayed without immediately re-indexing the PDF.</p>
+                    <img src="assets/graphrag/data-organization.jpg" alt="Vietnamese GraphRAG data organization" class="project-image">
+
+                    <h4 class="section-title">API Surface</h4>
+                    <ul>
+                        <li><code>POST /api/index</code> uploads a PDF and runs the complete indexing pipeline.</li>
+                        <li><code>GET /api/index/{index_id}/pipeline</code> returns saved artifacts and trace state.</li>
+                        <li><code>POST /api/search/basic</code>, <code>/local</code>, and <code>/global</code> execute the three retrieval strategies.</li>
+                    </ul>
+
+                    <h4 class="section-title">How to Run Locally</h4>
+                    <pre><code>cd Vietnamese-GraphRAG-Demo
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+cd backend
+uvicorn app.main:app --reload --port 8088</code></pre>
+                    <p>Open <code>http://127.0.0.1:8088/</code>, upload a text-based PDF, review the trace explorer, then compare Basic, Local, and Global retrieval behavior on the same query.</p>
                 </article>
                 <hr style="border: 0; border-top: 1px dashed #ccc; margin: 40px 0;">
 
@@ -287,6 +376,7 @@ cd swa</code></pre>
                         <ul>
                               <li><a href="#pharma-master">Pharmacy ERP System - Monolithic Modular System</a></li>
 
+                            <li><a href="#vietnamese-graphrag">Vietnamese GraphRAG - Traceable RAG System</a></li>
                             <li><a href="#restaurant-system">RestaurantSystem - Distributed Microservices System</a></li>
                         </ul>
                     </li>
